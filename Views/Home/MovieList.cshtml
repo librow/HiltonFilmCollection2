@@ -1,0 +1,48 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewBag.Title = "Movie Listings";   //setting website title
+}
+
+@model IEnumerable<Movie>
+
+<h2>Here are the movie listings:</h2>
+
+@*Creating a table to list out all movies*@
+<div>
+    <table>
+        <thead>
+            <tr><th>Category</th><th>Title</th><th>Year</th><th>Director</th><th>Rating</th><th>Edited</th><th>Lent To</th><th>Notes</th></tr>
+        </thead>
+
+        <tbody>
+            @foreach (HiltonFilmCollection2.Models.Movie x in Model)   //loops through each object to print each property
+            {
+                @if (x.title != "Independence Day")     //prints out the objects only if the title of the movie ISN'T "Independence Day"
+                {
+            <tr>
+                <td>@x.category</td>
+                <td>@x.title</td>
+                <td>@x.year</td>
+                <td>@x.director</td>
+                <td>@x.rating</td>
+                <td>@x.edited</td>
+                <td>@x.lentTo</td>
+                <td>@x.notes</td>
+                <td>@Html.ActionLink("Edit", "Edit", new { id = x.movieId })</td>
+                @*<td>@Html.ActionLink("Delete", "Delete", "HomeController", new { id = x.movieId })</td>
+        <td>@Html.ActionLink("Delete","Delete", new { controller="HomeController", action = "post", id = x.movieId })</td>
+                <td><a onclick="location.href='@Url.Action("Delete")'" id="@x.movieId">Delete</a></td>*@
+                <td>
+                    <form asp-action="Delete" method="post" asp-route-id="@x.movieId">
+                        <button class="bg-danger">Delete</button>
+                        @*<a asp-action="Delete" method="post" asp-route-id="@x.movieId">Delete</a>*@
+                    </form>
+                </td>
+            </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
